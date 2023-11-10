@@ -1,0 +1,12 @@
+#!/bin/bash
+# from https://hub.docker.com/r/nvidia/cuda/
+
+docker_dir=$(readlink -f $0 | xargs dirname)
+basename="$(dirname "$docker_dir")"
+echo $basename
+docker build --file 'JModelica.dockerfile' . -t docker_jmod
+
+docker run -it --name docker_jmod \
+	-p 8106:8106 \
+	--volume $basename/:/home/best \
+docker_jmod
